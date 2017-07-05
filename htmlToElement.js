@@ -7,7 +7,7 @@ import AutoSizedImage from './AutoSizedImage';
 
 const defaultOpts = {
   lineBreak: '\n',
-  paragraphBreak: '\n\n',
+  paragraphBreak: '\n',
   bullet: '\u2022 ',
   TextComponent: Text,
   textComponentProps: null,
