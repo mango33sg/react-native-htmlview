@@ -7,7 +7,7 @@ import AutoSizedImage from './AutoSizedImage';
 
 const defaultOpts = {
   lineBreak: '\n',
-  paragraphBreak: '\n',
+  paragraphBreak: '\n\n',
   bullet: '\u2022 ',
   TextComponent: Text,
   textComponentProps: null,
@@ -96,12 +96,36 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
             }
             break;
           case 'br':
+            if (index < list.length - 1) {
+              linebreakAfter = opts.lineBreak;
+            }
+            break;
+          case 'ul':
+            if (index < list.length - 1) {
+              linebreakAfter = opts.lineBreak;
+            }
+            break;
+          case 'li':
+            if (index < list.length - 1) {
+              linebreakAfter = opts.lineBreak;
+            }
+            break;
+          case 'ol':
+            if (index < list.length - 1) {
+              linebreakAfter = opts.lineBreak;
+            }
+            break;
           case 'h1':
           case 'h2':
           case 'h3':
           case 'h4':
           case 'h5':
             linebreakAfter = opts.lineBreak;
+            break;
+          case 'span':
+            if (index < list.length - 1) {
+              linebreakAfter = opts.lineBreak;
+            }
             break;
           }
         }
