@@ -85,10 +85,13 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
             linkPressHandler = () => {
               Alert.alert(
                 '',
-                'Are you go to this link?',
+                'Are you sure to go to this link?',
                 [
                   { text: 'Cancel' },
-                  { text: 'OK', onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)) },
+                  {
+                    text: 'OK',
+                    onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)),
+                  },
                 ],
               );
             }
