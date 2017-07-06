@@ -79,8 +79,14 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
 
         let linkPressHandler = null;
         if (node.name == 'a' && node.attribs && node.attribs.href) {
-          linkPressHandler = () =>
-            opts.linkHandler(entities.decodeHTML(node.attribs.href));
+          let href = node.attribs.href;
+          const findHttp = /(http(s?))\:\/\//gi;
+          if (href.match(findHttp)) {
+            linkPressHandler = () => opts.linkHandler(entities.decodeHTML(node.attribs.href));
+          } else {
+            //link internal apps
+            console.log('comming soon!');
+          }
         }
 
         let linebreakBefore = null;
