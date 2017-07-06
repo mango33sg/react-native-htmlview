@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Text, Alert} from 'react-native';
 import htmlparser from 'htmlparser2-without-node-native';
 import entities from 'entities';
 
@@ -82,10 +82,19 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
           let href = node.attribs.href;
           const findHttp = /(http(s?))\:\/\//gi;
           if (href.match(findHttp)) {
-            linkPressHandler = () => opts.linkHandler(entities.decodeHTML(node.attribs.href));
+            linkPressHandler = () => {
+              Alert.alert(
+                '',
+                'Are you go to this link?',
+                [
+                  { text: 'Cancel' },
+                  { text: 'OK', onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)) },
+                ],
+              );
+            }
           } else {
             //link internal apps
-            console.log('comming soon!');
+            linkPressHandler = () => Alert.alert('Info', 'Internal Link is comming soon!');
           }
         }
 
