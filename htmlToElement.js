@@ -81,23 +81,18 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
         if (node.name == 'a' && node.attribs && node.attribs.href) {
           let href = node.attribs.href;
           const findHttp = /(http(s?))\:\/\//gi;
-          if (href.match(findHttp)) {
-            linkPressHandler = () => {
-              Alert.alert(
-                '',
-                'Are you sure to go to this link?',
-                [
-                  { text: 'Cancel' },
-                  {
-                    text: 'OK',
-                    onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)),
-                  },
-                ],
-              );
-            }
-          } else {
-            //link internal apps
-            linkPressHandler = () => Alert.alert('Info', 'Internal Link is comming soon!');
+          linkPressHandler = () => {
+            Alert.alert(
+              '',
+              'Are you sure to go to this link?',
+              [
+                { text: 'Cancel' },
+                {
+                  text: 'OK',
+                  onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)),
+                },
+              ],
+            );
           }
         }
 
