@@ -81,18 +81,36 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
         if (node.name == 'a' && node.attribs && node.attribs.href) {
           let href = node.attribs.href;
           const findHttp = /(http(s?))\:\/\//gi;
-          linkPressHandler = () => {
-            Alert.alert(
-              '',
-              'Are you sure to go to this link?',
-              [
-                { text: 'Cancel' },
-                {
-                  text: 'OK',
-                  onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)),
-                },
-              ],
-            );
+          if (href.match(findHttp)) {
+            linkPressHandler = () => {
+              Alert.alert(
+                '',
+                'Are you sure to go to this link?',
+                [
+                  { text: 'Cancel' },
+                  {
+                    text: 'OK',
+                    onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)),
+                  },
+                ],
+              );
+            }
+          } else {
+            //link internal apps
+            console.log('node', node);
+            linkPressHandler = () => {
+              Alert.alert(
+                '',
+                'You will be directed to ' + node.attribs.class,
+                [
+                  { text: 'Cancel' },
+                  {
+                    text: 'OK',
+                    onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)),
+                  },
+                ],
+              );
+            }
           }
         }
 
