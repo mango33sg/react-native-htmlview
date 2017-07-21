@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Alert} from 'react-native';
+import {Text, View, Alert} from 'react-native';
 import htmlparser from 'htmlparser2-without-node-native';
 import entities from 'entities';
 
@@ -153,6 +153,13 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
           }
         }
 
+        let componentProps = null;
+        if(opts.componentProps) {
+          if (typeof opts.componentProps[node.name] !== 'undefined') {
+            componentProps = opts.componentProps[node.name];
+          }
+        }
+
         let listItemPrefix = null;
         if (node.name == 'li') {
           if (parent.name == 'ol') {
@@ -160,6 +167,26 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
           } else if (parent.name == 'ul') {
             listItemPrefix = opts.bullet;
           }
+          return (
+            <View
+              {...opts.nodeComponentProps}
+              {...componentProps}
+              key={index}
+              onPress={linkPressHandler}
+            >
+              {linebreakBefore}
+              <View style={{ padding: 2}}>
+                <Text {...node.children.componentProps}>{listItemPrefix}</Text>
+              </View>
+              <Text>{domToElement(node.children, node)}</Text>
+              {linebreakAfter}
+            </View>
+          );
+        }
+        if (node.name == 'ol' || node.name == 'ul') {
+          opts.NodeComponent = View;
+        } else {
+          opts.NodeComponent = Text;
         }
 
         const {NodeComponent} = opts;
@@ -167,6 +194,7 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
         return (
           <NodeComponent
             {...opts.nodeComponentProps}
+            {...componentProps}
             key={index}
             onPress={linkPressHandler}
           >
@@ -188,3 +216,4 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
   parser.write(rawHtml);
   parser.done();
 }
+
