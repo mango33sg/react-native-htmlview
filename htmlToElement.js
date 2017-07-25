@@ -165,7 +165,7 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
           if (parent.name == 'ol') {
             listItemPrefix = `${index + 1}. `;
           } else if (parent.name == 'ul') {
-            listItemPrefix = opts.bullet;
+            listItemPrefix = `${opts.bullet}  `;
           }
           return (
             <View
