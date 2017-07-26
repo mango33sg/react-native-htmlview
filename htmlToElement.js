@@ -61,11 +61,12 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
       const {TextComponent} = opts;
 
       if (node.type == 'text') {
+        const styleText = opts.componentProps.textNoTag;
         return (
           <TextComponent
             {...opts.textComponentProps}
+            {...styleText}
             key={index}
-            style={parent ? opts.styles[parent.name] : null}
           >
             {entities.decodeHTML(node.data)}
           </TextComponent>
@@ -175,10 +176,12 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
               onPress={linkPressHandler}
             >
               {linebreakBefore}
-              <View style={{ padding: 2}}>
+              <View style={{ marginTop: 1 }}>
                 <Text {...node.children.componentProps}>{listItemPrefix}</Text>
               </View>
-              <Text>{domToElement(node.children, node)}</Text>
+              <View style={{ flex: 1 }}>
+                {domToElement(node.children, node)}
+              </View>
               {linebreakAfter}
             </View>
           );
@@ -216,4 +219,3 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
   parser.write(rawHtml);
   parser.done();
 }
-
