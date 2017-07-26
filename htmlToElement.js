@@ -60,8 +60,12 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
 
       const {TextComponent} = opts;
 
+      let styleText = opts.componentProps.textNoTag;
+      if (node.name == 'i') {
+        styleText = opts.componentProps.i;
+      }
+
       if (node.type == 'text') {
-        const styleText = opts.componentProps.textNoTag;
         return (
           <TextComponent
             {...opts.textComponentProps}
@@ -114,7 +118,6 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
             }
           }
         }
-
         let linebreakBefore = null;
         let linebreakAfter = null;
         if (opts.addLineBreaks) {
@@ -128,7 +131,7 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
             }
             break;
           case 'br':
-            linebreakAfter = opts.paragraphBreak;
+            linebreakAfter = opts.lineBreak;
             break;
           case 'ul':
             linebreakAfter = opts.lineBreak;
@@ -153,6 +156,11 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
             break;
           }
         }
+
+        if (node.name === 'br') {
+          linebreakAfter = opts.lineBreak;
+        }
+
 
         let componentProps = null;
         if(opts.componentProps) {
