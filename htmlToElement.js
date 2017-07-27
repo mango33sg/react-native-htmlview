@@ -169,6 +169,28 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
           }
         }
 
+        if (node.name === 'p') {
+          if (node.prev) {
+            const tagBullet = ['ul', 'ol'];
+            if (tagBullet.indexOf(node.prev.name) > -1) {
+              componentProps =  {
+                style: {
+                  marginVertical: 10,
+                },
+              };
+            }
+          }
+          if (node.parent) {
+            if (node.parent.name === 'li') {
+              componentProps = {
+                style: {
+                  paddingBottom: -10,
+                },
+              };
+            }
+          }
+        }
+
         let listItemPrefix = null;
         if (node.name == 'li') {
           if (parent.name == 'ol') {
