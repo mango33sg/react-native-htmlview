@@ -65,6 +65,10 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
         styleText = opts.componentProps.i;
       }
 
+      if (node.parent && node.parent.name === 'a') {
+        styleText = opts.componentProps.a;
+      }
+
       if (node.type == 'text') {
         return (
           <TextComponent
