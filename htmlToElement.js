@@ -60,20 +60,10 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
 
       const {TextComponent} = opts;
 
-      let styleText = opts.componentProps.textNoTag;
-      if (node.name == 'i') {
-        styleText = opts.componentProps.i;
-      }
-
-      if (node.parent && node.parent.name === 'a') {
-        styleText = opts.componentProps.a;
-      }
-
       if (node.type == 'text') {
         return (
           <TextComponent
             {...opts.textComponentProps}
-            {...styleText}
             key={index}
           >
             {entities.decodeHTML(node.data)}
