@@ -23,10 +23,6 @@ const Img = props => {
     Number(props.attribs['data-height']) ||
     0;
 
-  const imgStyle = {
-    width,
-    height,
-  };
   const source = {
     uri: props.attribs.src,
     width,
@@ -59,15 +55,19 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
       }
 
       const {TextComponent} = opts;
-
+      const headers = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
       let styleText = opts.componentProps.textNoTag;
-      if (node.name == 'i') {
-        styleText = opts.componentProps.i;
+
+      if (headers.includes(node.name)) {
+        node.type = 'text';
+        node.data = node.children[0].data;
+        styleText = opts.componentProps.h1;
       }
 
       if (node.parent && node.parent.name === 'a') {
         styleText = opts.componentProps.a;
       }
+
       if (node.type == 'text') {
         return (
           <TextComponent
@@ -88,21 +88,21 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
         let linkPressHandler = null;
         if (node.name == 'a' && node.attribs && node.attribs.href) {
           let href = node.attribs.href;
-          const findHttp = /(http(s?))\:\/\//gi;
+          const findHttp = /(http(s?)):\/\//gi;
           if (href.match(findHttp)) {
             linkPressHandler = () => {
               Alert.alert(
                 '',
                 'Are you sure to go to this link?',
                 [
-                  { text: 'Cancel' },
+                  {text: 'Cancel'},
                   {
                     text: 'OK',
                     onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)),
                   },
                 ],
               );
-            }
+            };
           } else {
             //link internal apps
             console.log('node', node);
@@ -111,14 +111,14 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
                 '',
                 'You will be directed to ' + node.attribs.class,
                 [
-                  { text: 'Cancel' },
+                  {text: 'Cancel'},
                   {
                     text: 'OK',
                     onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)),
                   },
                 ],
               );
-            }
+            };
           }
         }
         let linebreakBefore = null;
@@ -166,7 +166,7 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
 
 
         let componentProps = null;
-        if(opts.componentProps) {
+        if (opts.componentProps) {
           if (typeof opts.componentProps[node.name] !== 'undefined') {
             componentProps = opts.componentProps[node.name];
           }
@@ -176,7 +176,7 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
           if (node.prev) {
             const tagBullet = ['ul', 'ol'];
             if (tagBullet.indexOf(node.prev.name) > -1) {
-              componentProps =  {
+              componentProps = {
                 style: {
                   marginVertical: 10,
                 },
@@ -209,10 +209,10 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
               onPress={linkPressHandler}
             >
               {linebreakBefore}
-              <View style={{ marginTop: 1 }}>
+              <View style={{marginTop: 1}}>
                 <Text {...node.children.componentProps}>{listItemPrefix}</Text>
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={{flex: 1}}>
                 {domToElement(node.children, node)}
               </View>
               {linebreakAfter}
