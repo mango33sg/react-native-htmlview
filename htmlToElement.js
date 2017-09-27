@@ -93,7 +93,7 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
             linkPressHandler = () => {
               Alert.alert(
                 '',
-                'Are you sure to go to this link?',
+                'Are you sure you want to leave this page?',
                 [
                   {text: 'Cancel'},
                   {
