@@ -212,7 +212,7 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
               <View style={{marginTop: 1}}>
                 <Text {...node.children.componentProps}>{listItemPrefix}</Text>
               </View>
-              <View style={{flex: 1}}>
+              <View style={{flex: 1, flexDirection: 'row' }}>
                 {domToElement(node.children, node)}
               </View>
               {linebreakAfter}
