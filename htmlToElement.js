@@ -194,6 +194,14 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
           }
         }
 
+        if (node.name === 'ul' || node.name === 'ol') {
+          componentProps = {
+            style: {
+              paddingBottom: 10,
+            },
+          };
+        }
+
         let listItemPrefix = null;
         if (node.name == 'li') {
           if (parent.name == 'ol') {
