@@ -196,11 +196,24 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
 
         let listItemPrefix = null;
         if (node.name == 'li') {
+          let styleBold = opts.componentProps.textNoTag.style;
           if (parent.name == 'ol') {
             listItemPrefix = `${index + 1}. `;
+            const children = node.children[0];
+
+            const boldTag = ['b', 'strong'];
+            if (children && boldTag.includes(children.name)) {
+              styleBold = opts.componentProps.b.style;
+            }
+
+            const italicTag = ['i', 'em'];
+            if (children && italicTag.includes(children.name)) {
+              styleBold = opts.componentProps.i.style;
+            }
           } else if (parent.name == 'ul') {
             listItemPrefix = `${opts.bullet}  `;
           }
+
           return (
             <View
               {...opts.nodeComponentProps}
@@ -209,8 +222,8 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
               onPress={linkPressHandler}
             >
               {linebreakBefore}
-              <View style={{marginTop: 1}}>
-                <Text {...node.children.componentProps}>{listItemPrefix}</Text>
+              <View>
+                <Text {...node.children.componentProps} style={styleBold}>{listItemPrefix}</Text>
               </View>
               <View style={{flex: 1 }}>
                 {domToElement(node.children, node)}
