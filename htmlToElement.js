@@ -200,14 +200,15 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
           if (parent.name == 'ol') {
             listItemPrefix = `${index + 1}. `;
             const children = node.children[0];
+            const isParagraph = children.name === 'p';
 
             const boldTag = ['b', 'strong'];
-            if (children && boldTag.includes(children.name)) {
+            if (children && isParagraph && boldTag.includes(children.children[0].name)) {
               styleBold = opts.componentProps.b.style;
             }
 
             const italicTag = ['i', 'em'];
-            if (children && italicTag.includes(children.name)) {
+            if (children && isParagraph && italicTag.includes(children.children[0].name)) {
               styleBold = opts.componentProps.i.style;
             }
           } else if (parent.name == 'ul') {
