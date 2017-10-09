@@ -204,6 +204,7 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
 
         let listItemPrefix = null;
         if (node.name == 'li') {
+          const listItemStyle = opts.componentProps.textNoTag.style;
           if (parent.name == 'ol') {
             listItemPrefix = `${index + 1}. `;
           } else if (parent.name == 'ul') {
@@ -217,8 +218,8 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
               onPress={linkPressHandler}
             >
               {linebreakBefore}
-              <View style={{marginTop: 1}}>
-                <Text {...node.children.componentProps}>{listItemPrefix}</Text>
+              <View>
+                <Text {...node.children.componentProps} style={listItemStyle}>{listItemPrefix}</Text>
               </View>
               <View style={{flex: 1 }}>
                 {domToElement(node.children, node)}
