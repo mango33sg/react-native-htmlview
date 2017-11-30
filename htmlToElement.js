@@ -134,7 +134,6 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
             }
             break;
           case 'br':
-            linebreakAfter = opts.lineBreak;
             break;
           case 'ul':
             linebreakAfter = opts.lineBreak;
@@ -161,7 +160,7 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
         }
 
         if (node.name === 'br') {
-          linebreakAfter = opts.lineBreak;
+          styleText = opts.componentProps.br;
         }
 
 
