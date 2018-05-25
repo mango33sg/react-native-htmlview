@@ -109,25 +109,6 @@ class HtmlView extends Component {
   }
 }
 
-HtmlView.propTypes = {
-  addLineBreaks: PropTypes.bool,
-  bullet: PropTypes.string,
-  lineBreak: PropTypes.string,
-  NodeComponent: PropTypes.func,
-  nodeComponentProps: PropTypes.object,
-  onError: PropTypes.func,
-  onLinkPress: PropTypes.func,
-  paragraphBreak: PropTypes.string,
-  renderNode: PropTypes.func,
-  RootComponent: PropTypes.func,
-  rootComponentProps: PropTypes.object,
-  style: View.propTypes.style,
-  stylesheet: PropTypes.object,
-  TextComponent: PropTypes.func,
-  textComponentProps: PropTypes.object,
-  value: PropTypes.string,
-};
-
 HtmlView.defaultProps = {
   addLineBreaks: true,
   onLinkPress: url => Linking.openURL(url),
