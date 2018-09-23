@@ -4,6 +4,7 @@ import htmlparser from 'htmlparser2-without-node-native';
 import entities from 'entities';
 
 import AutoSizedImage from './AutoSizedImage';
+import translations from './translations';
 
 const defaultOpts = {
   lineBreak: '\n',
@@ -95,9 +96,9 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
                 '',
                 'Are you sure you want to leave this page?',
                 [
-                  {text: 'Cancel'},
+                  {text: translations.t('cancel')},
                   {
-                    text: 'OK',
+                    text: translations.t('ok'),
                     onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)),
                   },
                 ],
@@ -105,15 +106,14 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
             };
           } else {
             //link internal apps
-            console.log('node', node);
             linkPressHandler = () => {
               Alert.alert(
                 '',
-                'You will be directed to ' + node.attribs.class,
+                translations.t('redirect', { url: node.attribs.class }),
                 [
-                  {text: 'Cancel'},
+                  {text: translations.t('cancel')},
                   {
-                    text: 'OK',
+                    text: translations.t('ok'),
                     onPress: () => opts.linkHandler(entities.decodeHTML(node.attribs.href)),
                   },
                 ],
